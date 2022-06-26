@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: rappers
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: app
+    build: ./app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: bash -c "wait-for-it --service db:5432 && alembic upgrade head && uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+
+volumes:
+  db_data:
+  pgadmin_data:
