@@ -20,6 +20,7 @@ def get_musicians_data(db):
 
 
 def get_musicians_songs_data(musician, db):
+    print(f"[x] Preparing data about {musician} songs...")
     parsed_rapper = parse_rapper(musician)
     rapper_db = Musician.get_musician_by_name(db, parsed_rapper)
     if not rapper_db.first():
