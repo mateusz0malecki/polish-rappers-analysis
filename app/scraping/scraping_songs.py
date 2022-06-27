@@ -27,7 +27,6 @@ def get_links_to_songs(musician):
             page_number += 1
         else:
             break
-
     return links_to_songs
 
 
@@ -52,11 +51,6 @@ def save_song_text(musician, title, text):
     """
     Saves song text to .txt file.
     """
-    try:
-        os.mkdir(f"/app/files_songs/{musician}")
-    except FileExistsError:
-        pass
-
     with open(f'/app/files_songs/{musician}/{title}.txt', 'w') as file:
         file.write(text)
 
@@ -67,6 +61,12 @@ def get_songs_for_musician(musician):
     """
     links = get_links_to_songs(musician=musician)
     number = 100
+
+    try:
+        os.mkdir(f"/app/files_songs/{musician}")
+    except FileExistsError:
+        print(f"[x] Folder for musician '{musician}' already exists.")
+
     for link in links:
         title, text = get_text_of_song(link)
         save_song_text(musician, f"{number} {title}", text)

@@ -3,8 +3,15 @@ from typing import Optional
 from datetime import datetime
 
 
+class MusicianList(BaseModel):
+    full_name: str
+
+    class Config:
+        orm_mode = True
+
+
 class MusicianScheme(BaseModel):
-    name: str
+    full_name: str
     number_of_words_10000: Optional[int]
     number_of_words_20000: Optional[int]
     number_of_words_30000: Optional[int]

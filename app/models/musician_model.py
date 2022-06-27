@@ -8,6 +8,7 @@ class Musician(Base):
     __tablename__ = "musicians"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(32), unique=True)
+    full_name = Column(String(32), unique=True)
     number_of_words_10000 = Column(Integer, nullable=True, default=None)
     number_of_words_20000 = Column(Integer, nullable=True, default=None)
     number_of_words_30000 = Column(Integer, nullable=True, default=None)
