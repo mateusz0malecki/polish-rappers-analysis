@@ -43,10 +43,13 @@ def get_text_of_song(url):
 
     song_title = bs_song.find('div', class_="belka row mx-0 px-3")
     song_title_clean = song_title.find('h1').get_text().translate((str.maketrans('', '', string.punctuation)))
-    song_text = bs_song.find('div', class_="inner-text").get_text()
-    song_text_clean = song_text.translate((str.maketrans('', '', string.punctuation)))\
-        .replace('Zwrotka', '').replace('Refren', '')
-
+    song_text_find = bs_song.find('div', class_="inner-text")
+    if song_text_find:
+        song_text = song_text_find.get_text()
+        song_text_clean = song_text.translate((str.maketrans('', '', string.punctuation)))\
+            .replace('Zwrotka', '').replace('Refren', '')
+    else:
+        song_text_clean = '-'
     return song_title_clean, song_text_clean
 
 

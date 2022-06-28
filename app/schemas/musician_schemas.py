@@ -29,3 +29,27 @@ class MusicianScheme(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class MusicianRank10000(MusicianList):
+    ranking10000: Optional[int]
+    numberOfWords10000: Optional[int]
+    mostCommon10000: Optional[str]
+
+
+class MusicianRank20000(MusicianList):
+    ranking20000: Optional[int]
+    numberOfWords20000: Optional[int]
+    mostCommon20000: Optional[str]
+
+
+class MusicianRank30000(MusicianList):
+    ranking30000: Optional[int]
+    numberOfWords30000: Optional[int]
+    mostCommon30000: Optional[str]
+
+
+class MusicianRankAll(MusicianList):
+    rankingAll: Optional[int]
+    numberOfWordsAll: Optional[int]
+    mostCommonAll: Optional[str]
