@@ -20,7 +20,7 @@ def nlp_texts(text):
     """
     Transforms all wards to one standard variety (lemma).
     """
-    nlp = stanza.Pipeline(lang='pl', processors='tokenize, mwt, lemma')
+    nlp = stanza.Pipeline(lang='pl', processors='tokenize, mwt, lemma', logging_level="WARNING")
     nlp_text = nlp(text)
 
     nlp_text_lemma = ''

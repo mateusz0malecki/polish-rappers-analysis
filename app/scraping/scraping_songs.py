@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 from requests import get
 import string
 import os
+from helpers.log import setup_custom_logger
+
+logger = setup_custom_logger('root')
 
 
 def get_links_to_songs(musician):
@@ -65,7 +68,7 @@ def get_songs_for_musician(musician):
     try:
         os.mkdir(f"/app/files_songs/{musician}")
     except FileExistsError:
-        print(f"[x] Folder for musician '{musician}' already exists.")
+        logger.info(f"[x] Folder for musician '{musician}' already exists.")
 
     for link in links:
         title, text = get_text_of_song(link)

@@ -3,13 +3,16 @@ from models.musician_model import Musician
 from scraping.scraping_musicians import get_rappers, WIKI_URL, WIKI_URL2, parse_rapper
 from scraping.scraping_songs import get_songs_for_musician
 from nlp.count import count_words
+from helpers.log import setup_custom_logger
+
+logger = setup_custom_logger('root')
 
 
 def make_folder_for_data():
     try:
         os.mkdir(f"/app/files_songs/")
     except FileExistsError:
-        print(f"[x] Folder for songs data already exists.")
+        logger.info(f"[x] Folder for songs data already exists.")
 
 
 def get_musicians_data(db):
@@ -24,15 +27,15 @@ def get_musicians_data(db):
             db.add(rapper_to_add)
             db.commit()
             db.refresh(rapper_to_add)
-    print("[x] Uploading musicians complete.")
+    logger.info("[x] Uploading musicians complete.")
 
 
 def get_musicians_songs_data(musician, db):
-    print(f"[x] Preparing data about {musician} songs...")
+    logger.info(f"[x] Preparing data about {musician} songs...")
     parsed_rapper = parse_rapper(musician)
     rapper_db = Musician.get_musician_by_name(db, parsed_rapper)
     if not rapper_db.first():
-        print(f"[x] Musician {rapper_db} not found.")
+        logger.error(f"[x] Musician {rapper_db} not found.")
     else:
         get_songs_for_musician(parsed_rapper)
         words_all, common_all = count_words(parsed_rapper)
@@ -64,4 +67,4 @@ def get_musicians_songs_data(musician, db):
              "most_common_all": common_all_db}
         )
         db.commit()
-        print(f"[x] Calculating data about {musician} songs complete.")
+        logger.info(f"[x] Calculating data about {musician} songs complete.")
