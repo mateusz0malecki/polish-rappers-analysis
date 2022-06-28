@@ -4,24 +4,28 @@ from datetime import datetime
 
 
 class MusicianList(BaseModel):
-    full_name: str
+    artistName: str
 
     class Config:
         orm_mode = True
 
 
 class MusicianScheme(BaseModel):
-    full_name: str
-    number_of_words_10000: Optional[int]
-    number_of_words_20000: Optional[int]
-    number_of_words_30000: Optional[int]
-    number_of_words_all: Optional[int]
-    most_common_10000: Optional[str]
-    most_common_20000: Optional[str]
-    most_common_30000: Optional[str]
-    most_common_all: Optional[str]
-    updated_at: Optional[datetime]
-    created_at: Optional[datetime]
+    artistName: str
+    numberOfWords10000: Optional[int]
+    numberOfWords20000: Optional[int]
+    numberOfWords30000: Optional[int]
+    numberOfWordsAll: Optional[int]
+    ranking10000: Optional[int]
+    ranking20000: Optional[int]
+    ranking30000: Optional[int]
+    rankingAll: Optional[int]
+    mostCommon10000: Optional[str]
+    mostCommon20000: Optional[str]
+    mostCommon30000: Optional[str]
+    mostCommonAll: Optional[str]
+    updatedAt: Optional[datetime]
+    createdAt: Optional[datetime]
 
     class Config:
         orm_mode = True

@@ -24,8 +24,8 @@ async def setup(
     get_musicians_data(db)
     # DEV STAGE
     # rappers = db.query(Musician).all()
-    # rappers_list = [rapper.full_name for rapper in rappers]
-    rappers_list = ["Jan-rapowanie", "Taco Hemingway", "Quebonafide"]
+    # rappers_list = [rapper.artist_name for rapper in rappers]
+    rappers_list = ["Bober"]
     for rapper_name in rappers_list:
         get_musicians_songs_data(rapper_name, db)
     return {"message": "Database updated."}

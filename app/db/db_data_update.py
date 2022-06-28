@@ -22,7 +22,7 @@ def get_musicians_data(db):
         if not Musician.get_musician_by_name(db, parsed_rapper).first():
             rapper_to_add = Musician(
                 name=parsed_rapper,
-                full_name=rapper
+                artistName=rapper
             )
             db.add(rapper_to_add)
             db.commit()
@@ -57,14 +57,14 @@ def get_musicians_songs_data(musician, db):
             common_30000_db += word[0] + ' x' + str(word[1]) + ' / '
 
         rapper_db.update(
-            {"number_of_words_10000": words_10000,
-             "number_of_words_20000": words_20000,
-             "number_of_words_30000": words_30000,
-             "number_of_words_all": words_all,
-             "most_common_10000": common_10000_db,
-             "most_common_20000": common_20000_db,
-             "most_common_30000": common_30000_db,
-             "most_common_all": common_all_db}
+            {"numberOfWords10000": words_10000,
+             "numberOfWords20000": words_20000,
+             "numberOfWords30000": words_30000,
+             "numberOfWordsAll": words_all,
+             "mostCommon10000": common_10000_db,
+             "mostCommon20000": common_20000_db,
+             "mostCommon30000": common_30000_db,
+             "mostCommonAll": common_all_db}
         )
         db.commit()
         logger.info(f"[x] Calculating data about {musician} songs complete.")

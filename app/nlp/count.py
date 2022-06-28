@@ -14,6 +14,6 @@ def count_words(musician, limit=None):
         words_to_count = list_of_words[:limit]
 
     counter = Counter(words_to_count)
-    most_common_words = counter.most_common(10)
+    most_common_words = counter.most_common(5)
     nr_of_words = len(counter)
     return nr_of_words, most_common_words
