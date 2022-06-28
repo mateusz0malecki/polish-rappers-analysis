@@ -1,7 +1,15 @@
+import os
 from models.musician_model import Musician
 from scraping.scraping_musicians import get_rappers, WIKI_URL, WIKI_URL2, parse_rapper
 from scraping.scraping_songs import get_songs_for_musician
 from nlp.count import count_words
+
+
+def make_folder_for_data():
+    try:
+        os.mkdir(f"/app/files_songs/")
+    except FileExistsError:
+        print(f"[x] Folder for songs data already exists.")
 
 
 def get_musicians_data(db):

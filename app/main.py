@@ -6,7 +6,7 @@ from scraping.scraping_musicians import parse_rapper
 from models.musician_model import Musician
 from schemas import musician_schemas
 from db.database import get_db
-from db.db_data_update import get_musicians_data, get_musicians_songs_data
+from db.db_data_update import get_musicians_data, get_musicians_songs_data, make_folder_for_data
 
 
 app = FastAPI()
@@ -20,11 +20,12 @@ async def setup(
     Only for superuser.
     Updates DB with current info about rappers and songs.
     """
+    make_folder_for_data()
     get_musicians_data(db)
-    rappers = db.query(Musician).all()
     # DEV STAGE
+    # rappers = db.query(Musician).all()
     # rappers_list = [rapper.full_name for rapper in rappers]
-    rappers_list = ["Jan-rapowanie", "Taco Hemingway", "Mata", "Quebonafide", "Pezet"]
+    rappers_list = ["Jan-rapowanie", "Taco Hemingway", "Quebonafide"]
     for rapper_name in rappers_list:
         get_musicians_songs_data(rapper_name, db)
     return {"message": "Database updated."}
