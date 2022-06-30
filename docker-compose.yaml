@@ -2,13 +2,14 @@ version: "3.8"
 services:
   db:
     container_name: db
-    image: postgres:14-alpine
+    image: postgres:14.4
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: rappers
       POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: '--encoding=UTF8 --lc-collate=C --lc-ctype=C'
     ports:
       - "5432:5432"
 

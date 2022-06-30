@@ -49,7 +49,6 @@ async def setup_ranking(
     rappers_all = db.query(Musician).order_by(Musician.numberOfWordsAll.desc())
     number = 1
     for rapper in rappers10000:
-        print(rapper.name)
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
                 "ranking10000": number
@@ -59,7 +58,6 @@ async def setup_ranking(
         number += 1
     number = 1
     for rapper in rappers20000:
-        print(rapper.name)
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
                 "ranking20000": number
@@ -69,7 +67,6 @@ async def setup_ranking(
         number += 1
     number = 1
     for rapper in rappers30000:
-        print(rapper.name)
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
                 "ranking30000": number
@@ -79,7 +76,6 @@ async def setup_ranking(
         number += 1
     number = 1
     for rapper in rappers_all:
-        print(rapper.name)
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
                 "rankingAll": number
