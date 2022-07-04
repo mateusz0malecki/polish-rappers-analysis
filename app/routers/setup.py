@@ -29,7 +29,7 @@ async def setup_songs(
     """
     make_folder_for_data()
     rappers = db.query(Musician).all()
-    rappers_list = [rapper.artistName for rapper in rappers]
+    rappers_list = [rapper.artist_name for rapper in rappers]
     for rapper_name in rappers_list:
         get_musicians_songs_data(rapper_name, db)
     return {"message": "DB - songs info updated."}

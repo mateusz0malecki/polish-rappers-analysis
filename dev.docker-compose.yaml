@@ -5,6 +5,7 @@ services:
     image: postgres:14.4
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./postgres-dump/dump_all.sql:/docker-entrypoint-initdb.d/dump_all.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: rappers
