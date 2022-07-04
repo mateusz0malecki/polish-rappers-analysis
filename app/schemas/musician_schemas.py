@@ -3,53 +3,63 @@ from typing import Optional
 from datetime import datetime
 
 
+def lower_camel(string: str) -> str:
+    camel = ''.join(word.capitalize() for word in string.split('_'))
+    low_camel = camel[0].lower() + camel[1:]
+    return low_camel
+
+
 class MusicianList(BaseModel):
-    artistName: str
+    artist_name: str
 
     class Config:
         orm_mode = True
+        alias_generator = lower_camel
+        allow_population_by_field_name = True
 
 
 class MusicianScheme(BaseModel):
-    artistName: str
-    numberOfWords10000: Optional[int]
-    numberOfWords20000: Optional[int]
-    numberOfWords30000: Optional[int]
-    numberOfWordsAll: Optional[int]
-    ranking10000: Optional[int]
-    ranking20000: Optional[int]
-    ranking30000: Optional[int]
-    rankingAll: Optional[int]
-    mostCommon10000: Optional[str]
-    mostCommon20000: Optional[str]
-    mostCommon30000: Optional[str]
-    mostCommonAll: Optional[str]
-    updatedAt: Optional[datetime]
-    createdAt: Optional[datetime]
+    artist_name: str
+    number_of_words_10000: Optional[int]
+    number_of_words_20000: Optional[int]
+    number_of_words_30000: Optional[int]
+    number_of_words_all: Optional[int]
+    ranking_10000: Optional[int]
+    ranking_20000: Optional[int]
+    ranking_30000: Optional[int]
+    ranking_all: Optional[int]
+    most_common_10000: Optional[str]
+    most_common_20000: Optional[str]
+    most_common_30000: Optional[str]
+    most_common_all: Optional[str]
+    updated_at: Optional[datetime]
+    created_at: Optional[datetime]
 
     class Config:
         orm_mode = True
+        alias_generator = lower_camel
+        allow_population_by_field_name = True
 
 
 class MusicianRank10000(MusicianList):
-    ranking10000: Optional[int]
-    numberOfWords10000: Optional[int]
-    mostCommon10000: Optional[str]
+    ranking_10000: Optional[int]
+    number_of_words_10000: Optional[int]
+    most_common_10000: Optional[str]
 
 
 class MusicianRank20000(MusicianList):
-    ranking20000: Optional[int]
-    numberOfWords20000: Optional[int]
-    mostCommon20000: Optional[str]
+    ranking_20000: Optional[int]
+    number_of_words_20000: Optional[int]
+    most_common_20000: Optional[str]
 
 
 class MusicianRank30000(MusicianList):
-    ranking30000: Optional[int]
-    numberOfWords30000: Optional[int]
-    mostCommon30000: Optional[str]
+    ranking_30000: Optional[int]
+    number_of_words_30000: Optional[int]
+    most_common_30000: Optional[str]
 
 
 class MusicianRankAll(MusicianList):
-    rankingAll: Optional[int]
-    numberOfWordsAll: Optional[int]
-    mostCommonAll: Optional[str]
+    ranking_all: Optional[int]
+    number_of_words_all: Optional[int]
+    most_common_all: Optional[str]

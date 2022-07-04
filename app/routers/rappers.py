@@ -48,7 +48,7 @@ async def ranking_results_10000(
     """
     Returns list of rappers ordered ascending by those who used most different words in his first 10000 songs words.
     """
-    rappers = db.query(Musician).order_by(Musician.ranking10000)
+    rappers = db.query(Musician).order_by(Musician.ranking_10000)
     return rappers.all()
 
 
@@ -59,7 +59,7 @@ async def ranking_results_20000(
     """
     Returns list of rappers ordered ascending by those who used most different words in his first 20000 songs words.
     """
-    rappers = db.query(Musician).order_by(Musician.ranking20000)
+    rappers = db.query(Musician).order_by(Musician.ranking_20000)
     return rappers.all()
 
 
@@ -70,7 +70,7 @@ async def ranking_results_30000(
     """
     Returns list of rappers ordered ascending by those who used most different words in his first 30000 songs words.
     """
-    rappers = db.query(Musician).order_by(Musician.ranking30000)
+    rappers = db.query(Musician).order_by(Musician.ranking_30000)
     return rappers.all()
 
 
@@ -81,5 +81,5 @@ async def ranking_results_all(
     """
     Returns list of rappers ordered ascending by those who used most different words in his all songs.
     """
-    rappers = db.query(Musician).order_by(Musician.rankingAll)
+    rappers = db.query(Musician).order_by(Musician.ranking_all)
     return rappers.all()

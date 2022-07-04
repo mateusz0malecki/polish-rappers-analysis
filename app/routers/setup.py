@@ -28,9 +28,8 @@ async def setup_songs(
     Updates DB with current info about songs.
     """
     make_folder_for_data()
-    # rappers = db.query(Musician).all()
-    # rappers_list = [rapper.artistName for rapper in rappers]
-    rappers_list = ["Bober"]
+    rappers = db.query(Musician).all()
+    rappers_list = [rapper.artistName for rapper in rappers]
     for rapper_name in rappers_list:
         get_musicians_songs_data(rapper_name, db)
     return {"message": "DB - songs info updated."}
@@ -44,15 +43,15 @@ async def setup_ranking(
     Only for superuser.
     Updates DB with current info about ranking - which rapper used most words.
     """
-    rappers10000 = db.query(Musician).order_by(Musician.numberOfWords10000.desc())
-    rappers20000 = db.query(Musician).order_by(Musician.numberOfWords20000.desc())
-    rappers30000 = db.query(Musician).order_by(Musician.numberOfWords30000.desc())
-    rappers_all = db.query(Musician).order_by(Musician.numberOfWordsAll.desc())
+    rappers10000 = db.query(Musician).order_by(Musician.number_of_words_10000.desc())
+    rappers20000 = db.query(Musician).order_by(Musician.number_of_words_20000.desc())
+    rappers30000 = db.query(Musician).order_by(Musician.number_of_words_30000.desc())
+    rappers_all = db.query(Musician).order_by(Musician.number_of_words_all.desc())
     number = 1
     for rapper in rappers10000:
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
-                "ranking10000": number
+                "ranking_10000": number
             }
         )
         db.commit()
@@ -61,7 +60,7 @@ async def setup_ranking(
     for rapper in rappers20000:
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
-                "ranking20000": number
+                "ranking_20000": number
             }
         )
         db.commit()
@@ -70,7 +69,7 @@ async def setup_ranking(
     for rapper in rappers30000:
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
-                "ranking30000": number
+                "ranking_30000": number
             }
         )
         db.commit()
@@ -79,7 +78,7 @@ async def setup_ranking(
     for rapper in rappers_all:
         db.query(Musician).filter(Musician.id == rapper.id).update(
             {
-                "rankingAll": number
+                "ranking_all": number
             }
         )
         db.commit()
