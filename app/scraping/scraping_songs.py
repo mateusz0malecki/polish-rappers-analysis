@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 from requests import get
 import string
 import os
-from helpers.log import setup_custom_logger
+import logging
 
-logger = setup_custom_logger('root')
+logger = logging.getLogger(__name__)
 
 
 def get_links_to_songs(musician):

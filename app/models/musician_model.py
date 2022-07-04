@@ -5,7 +5,7 @@ from db.database import Base
 
 
 class Musician(Base):
-    __tablename__ = "musicians"
+    __tablename__ = "musician"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(32), unique=True)
     artistName = Column(String(32), unique=True)
@@ -26,4 +26,4 @@ class Musician(Base):
 
     @staticmethod
     def get_musician_by_name(db, name):
-        return db.query(Musician).filter(Musician.name == name)
+        return db.query(Musician).filter(Musician.name == name).first()

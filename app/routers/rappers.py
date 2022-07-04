@@ -32,13 +32,13 @@ async def musician_info(
     """
     parsed_rapper = parse_rapper(musician)
     rapper_db = Musician.get_musician_by_name(db, parsed_rapper)
-    if not rapper_db.first():
-        return HTTPException(
+    if rapper_db is None:
+        raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Rapper not found. Try again."
         )
     else:
-        return rapper_db.first()
+        return rapper_db
 
 
 @router.get('/ranking/10000', status_code=status.HTTP_200_OK, response_model=List[musician_schemas.MusicianRank10000])

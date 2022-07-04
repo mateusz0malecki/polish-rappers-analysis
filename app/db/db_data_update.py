@@ -1,11 +1,11 @@
 import os
+import logging
 from models.musician_model import Musician
 from scraping.scraping_musicians import get_rappers, WIKI_URL, WIKI_URL2, parse_rapper
 from scraping.scraping_songs import get_songs_for_musician
 from nlp.count import count_words
-from helpers.log import setup_custom_logger
 
-logger = setup_custom_logger('root')
+logger = logging.getLogger(__name__)
 
 
 def make_folder_for_data():
@@ -19,7 +19,7 @@ def get_musicians_data(db):
     rappers = get_rappers(WIKI_URL, WIKI_URL2)
     for rapper in rappers:
         parsed_rapper = parse_rapper(rapper)
-        if not Musician.get_musician_by_name(db, parsed_rapper).first():
+        if not Musician.get_musician_by_name(db, parsed_rapper):
             rapper_to_add = Musician(
                 name=parsed_rapper,
                 artistName=rapper
@@ -34,8 +34,8 @@ def get_musicians_songs_data(musician, db):
     logger.info(f"[x] Preparing data about {musician} songs...")
     parsed_rapper = parse_rapper(musician)
     rapper_db = Musician.get_musician_by_name(db, parsed_rapper)
-    if not rapper_db.first():
-        logger.error(f"[x] Musician {rapper_db} not found.")
+    if not rapper_db:
+        logger.error(f"[x] Musician {musician} not found.")
     else:
         get_songs_for_musician(parsed_rapper)
         words_all, common_all = count_words(parsed_rapper)
@@ -56,15 +56,14 @@ def get_musicians_songs_data(musician, db):
         for word in common_30000:
             common_30000_db += word[0] + ' x' + str(word[1]) + ' / '
 
-        rapper_db.update(
-            {"numberOfWords10000": words_10000,
-             "numberOfWords20000": words_20000,
-             "numberOfWords30000": words_30000,
-             "numberOfWordsAll": words_all,
-             "mostCommon10000": common_10000_db,
-             "mostCommon20000": common_20000_db,
-             "mostCommon30000": common_30000_db,
-             "mostCommonAll": common_all_db}
-        )
+        rapper_db.numberOfWords10000 = words_10000
+        rapper_db.numberOfWords20000 = words_20000
+        rapper_db.numberOfWords30000 = words_30000
+        rapper_db.numberOfWordsAll = words_all
+        rapper_db.mostCommon10000 = common_10000_db
+        rapper_db.mostCommon20000 = common_20000_db
+        rapper_db.mostCommon30000 = common_30000_db
+        rapper_db.mostCommonAll = common_all_db
+
         db.commit()
         logger.info(f"[x] Calculating data about {musician} songs complete.")
