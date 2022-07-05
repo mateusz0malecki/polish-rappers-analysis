@@ -10,7 +10,7 @@ def get_all_texts(musician):
     Gathers text from all downloaded songs of chosen musician.
     Turns it into list of words.
     """
-    path = f"{settings.sangs_path}{musician}"
+    path = f"{settings.songs_path}{musician}"
     texts_gathered = ''
     for file in os.listdir(path):
         with open(os.path.join(path, file), 'r') as song_text:

@@ -60,12 +60,12 @@ def get_text_of_song(url):
 
 
 def save_song_text(musician, title, text):
-    with open(f'{settings.sangs_path}{musician}/{title}.txt', 'w') as file:
+    with open(f'{settings.songs_path}{musician}/{title}.txt', 'w') as file:
         file.write(text)
 
 
 def check_if_song_downloaded(musician, title):
-    directory = f'{settings.sangs_path}{musician}'
+    directory = f'{settings.songs_path}{musician}'
     file_list = os.listdir(directory)
     for file in file_list:
         if title in file:
@@ -78,7 +78,7 @@ def get_songs_for_musician(musician):
     number = 100
 
     try:
-        os.mkdir(f"{settings.sangs_path}{musician}")
+        os.mkdir(f"{settings.songs_path}{musician}")
     except FileExistsError:
         logger.info(f"[x] Folder for musician '{musician}' already exists.")
 

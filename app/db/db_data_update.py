@@ -12,7 +12,7 @@ settings = Settings()
 
 def make_folder_for_data():
     try:
-        os.mkdir(settings.sangs_path)
+        os.mkdir(settings.songs_path)
     except FileExistsError:
         logger.info(f"[x] Folder for songs data already exists.")
 

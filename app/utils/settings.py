@@ -11,7 +11,10 @@ class Settings(BaseSettings):
     postgres_password: str
     postgres_host: str
 
-    sangs_path: str = "/app/files_songs/"
+    songs_path: str = "/app/files_songs/"
+
+    amqp_host: str = "rabbitmqhost"
+    amqp_uri: str = f"amqp://{amqp_host}"
 
 
 @lru_cache()

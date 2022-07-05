@@ -8,3 +8,4 @@ wait-for-it
 alembic
 stanza
 python-dotenv
+celery
