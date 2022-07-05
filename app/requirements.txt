@@ -7,3 +7,4 @@ psycopg2
 wait-for-it
 alembic
 stanza
+python-dotenv

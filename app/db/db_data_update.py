@@ -1,16 +1,18 @@
 import os
 import logging
+from utils.settings import Settings
 from models.musician_model import Musician
 from scraping.scraping_musicians import get_rappers, WIKI_URL, WIKI_URL2, parse_rapper
 from scraping.scraping_songs import get_songs_for_musician
 from nlp.count import count_words
 
 logger = logging.getLogger(__name__)
+settings = Settings()
 
 
 def make_folder_for_data():
     try:
-        os.mkdir(f"/app/files_songs/")
+        os.mkdir(settings.sangs_path)
     except FileExistsError:
         logger.info(f"[x] Folder for songs data already exists.")
 

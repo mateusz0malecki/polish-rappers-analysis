@@ -1,5 +1,8 @@
 import os
 import stanza
+from utils.settings import Settings
+
+settings = Settings()
 
 
 def get_all_texts(musician):
@@ -7,9 +10,9 @@ def get_all_texts(musician):
     Gathers text from all downloaded songs of chosen musician.
     Turns it into list of words.
     """
-    path = f"/app/files_songs/{musician}"
+    path = f"{settings.sangs_path}{musician}"
     texts_gathered = ''
-    for file in os.listdir(f"/app/files_songs/{musician}/"):
+    for file in os.listdir(path):
         with open(os.path.join(path, file), 'r') as song_text:
             text = song_text.read()
             texts_gathered += text
