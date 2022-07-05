@@ -17,22 +17,25 @@ def get_links_to_songs(musician):
     links_to_songs = []
     page_number = 1
 
-    while True:
-        page = get(
-            f"https://www.tekstowo.pl/piosenki_artysty,{musician},data,rosnaco,strona,{page_number}.html"
-        ).content
-        bs = BeautifulSoup(page, 'html.parser')
+    try:
+        while True:
+            page = get(
+                f"https://www.tekstowo.pl/piosenki_artysty,{musician},data,rosnaco,strona,{page_number}.html"
+            ).content
+            bs = BeautifulSoup(page, 'html.parser')
 
-        list_of_songs = bs.find('div', class_="ranking-lista")
-        songs = list_of_songs.find_all('a', class_="title")
+            list_of_songs = bs.find('div', class_="ranking-lista")
+            songs = list_of_songs.find_all('a', class_="title")
 
-        if len(songs) > 1:
-            for link in songs:
-                links_to_songs.append((link['href'], link['title']))
-            page_number += 1
-        else:
-            break
-    return links_to_songs
+            if len(songs) > 1:
+                for link in songs:
+                    links_to_songs.append((link['href'], link['title']))
+                page_number += 1
+            else:
+                break
+        return links_to_songs
+    except Exception as e:
+        logger.error(f"Scraping error: {e}")
 
 
 def get_text_of_song(url):
@@ -40,17 +43,20 @@ def get_text_of_song(url):
     Returns scrapped text of a song from chosen link.
     Uses 'tekstowo.pl' website to scrap data.
     """
-    song_page = get(f"https://www.tekstowo.pl{url}").content
-    bs_song = BeautifulSoup(song_page, 'html.parser')
+    try:
+        song_page = get(f"https://www.tekstowo.pl{url}").content
+        bs_song = BeautifulSoup(song_page, 'html.parser')
 
-    song_text_find = bs_song.find('div', class_="inner-text")
-    if song_text_find:
-        song_text = song_text_find.get_text()
-        song_text_clean = song_text.translate((str.maketrans('', '', string.punctuation)))\
-            .replace('Zwrotka', '').replace('Refren', '')
-    else:
-        song_text_clean = '-'
-    return song_text_clean
+        song_text_find = bs_song.find('div', class_="inner-text")
+        if song_text_find:
+            song_text = song_text_find.get_text()
+            song_text_clean = song_text.translate((str.maketrans('', '', string.punctuation)))\
+                .replace('Zwrotka', '').replace('Refren', '')
+        else:
+            song_text_clean = '-'
+        return song_text_clean
+    except Exception as e:
+        logger.error(f"Scraping error: {e}")
 
 
 def save_song_text(musician, title, text):

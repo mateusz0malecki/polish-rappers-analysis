@@ -27,3 +27,7 @@ class Musician(Base):
     @staticmethod
     def get_musician_by_name(db, name):
         return db.query(Musician).filter(Musician.name == name).first()
+
+    @staticmethod
+    def get_all_musicians(db):
+        return db.query(Musician).all()

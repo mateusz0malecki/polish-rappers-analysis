@@ -18,7 +18,7 @@ async def get_musicians(
     """
     Returns list of available rappers.
     """
-    rappers = db.query(Musician).all()
+    rappers = Musician.get_all_musicians(db)
     return rappers
 
 

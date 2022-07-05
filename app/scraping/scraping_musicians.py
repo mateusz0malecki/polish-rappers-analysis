@@ -1,5 +1,8 @@
+import logging
 from bs4 import BeautifulSoup
 from requests import get
+
+logger = logging.getLogger(__name__)
 
 WIKI_URL = "https://pl.wikipedia.org/w/index.php?title=Kategoria:Polscy_raperzy"
 WIKI_URL2 = "https://pl.wikipedia.org/w/index.php?title=Kategoria:Polscy_raperzy&pagefrom=Rahim#mw-pages"
@@ -11,19 +14,22 @@ def get_rappers(*URLS):
     """
     rappers = []
     for URL in URLS:
-        page = get(URL).content
-        bs = BeautifulSoup(page, 'html.parser')
-        for rapper_group in bs.find_all('div', class_="mw-category-group"):
-            for rapper in rapper_group.find_all('li'):
-                rapper_clean = rapper.get_text() \
-                    .replace('(raper)', '') \
-                    .replace('(muzyk)', '') \
-                    .replace('(beatbokser)', '') \
-                    .replace('(producent muzyczny)', '') \
-                    .replace('(freestyler)', '') \
-                    .replace('(piosenkarz)', '') \
-                    .strip()
-                rappers.append(rapper_clean)
+        try:
+            page = get(URL).content
+            bs = BeautifulSoup(page, 'html.parser')
+            for rapper_group in bs.find_all('div', class_="mw-category-group"):
+                for rapper in rapper_group.find_all('li'):
+                    rapper_clean = rapper.get_text() \
+                        .replace('(raper)', '') \
+                        .replace('(muzyk)', '') \
+                        .replace('(beatbokser)', '') \
+                        .replace('(producent muzyczny)', '') \
+                        .replace('(freestyler)', '') \
+                        .replace('(piosenkarz)', '') \
+                        .strip()
+                    rappers.append(rapper_clean)
+        except Exception as e:
+            logger.error(f"Scraping error: {e}")
     return rappers
 
 

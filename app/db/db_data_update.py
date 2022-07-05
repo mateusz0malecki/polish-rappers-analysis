@@ -18,6 +18,7 @@ def make_folder_for_data():
 
 
 def get_musicians_data(db):
+    rappers_to_add = []
     rappers = get_rappers(WIKI_URL, WIKI_URL2)
     for rapper in rappers:
         parsed_rapper = parse_rapper(rapper)
@@ -26,9 +27,11 @@ def get_musicians_data(db):
                 name=parsed_rapper,
                 artist_name=rapper
             )
-            db.add(rapper_to_add)
-            db.commit()
-            db.refresh(rapper_to_add)
+            rappers_to_add.append(rapper_to_add)
+    db.add_all(rappers_to_add)
+    db.commit()
+    for instance in rappers_to_add:
+        db.refresh(instance)
     logger.info("[x] Uploading musicians complete.")
 
 
