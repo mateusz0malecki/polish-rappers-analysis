@@ -9,3 +9,4 @@ alembic
 stanza
 python-dotenv
 celery
+flower

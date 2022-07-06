@@ -1,22 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.db_data_update import get_musicians_data, get_musicians_songs_data, make_folder_for_data
+from db.db_data_update import get_musicians_songs_data
 from models.musician_model import Musician
+from scraping.scraping_songs import make_folder_for_data
 
 router = APIRouter(tags=['SETUP'])
-
-
-@router.get('/setup_musicians')
-async def setup_musicians(
-        db: Session = Depends(get_db)
-):
-    """
-    Only for superuser.
-    Updates DB with current info about rappers.
-    """
-    get_musicians_data(db)
-    return {"message": "DB - musicians list updated."}
 
 
 @router.get('/setup_songs')

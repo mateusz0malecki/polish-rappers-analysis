@@ -9,6 +9,13 @@ settings = Settings()
 logger = logging.getLogger(__name__)
 
 
+def make_folder_for_data():
+    try:
+        os.mkdir(settings.songs_path)
+    except FileExistsError:
+        logger.info(f"[x] Folder for songs data already exists.")
+
+
 def get_links_to_songs(musician):
     """
     Scraps links to all songs texts of chosen musician.
