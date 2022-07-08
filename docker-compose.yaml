@@ -52,7 +52,7 @@ services:
   celery_worker:
     container_name: celery_worker
     build: ./app
-    command: bash -c "wait-for-it --service rabbitmq:5672 && wait-for-it --service app:8000 && celery -A celery_worker worker --loglevel=info"
+    command: bash -c "wait-for-it --service rabbitmq:5672 && wait-for-it --service app:8000 && celery -A celery_worker worker --loglevel=info -B"
     volumes:
       - ./app:/app
     environment:
@@ -61,7 +61,7 @@ services:
 
   flower:
     container_name: flower
-    image: mher/flower
+    image: mher/flower:0.9.5
     ports:
       - "5566:5566"
     environment:
