@@ -3,7 +3,6 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers.setup import router as setup_router
 from routers.rappers import router as rappers_router
 
 
@@ -16,7 +15,6 @@ logger.addHandler(handler)
 
 
 app = FastAPI()
-app.include_router(setup_router)
 app.include_router(rappers_router)
 
 origins = [

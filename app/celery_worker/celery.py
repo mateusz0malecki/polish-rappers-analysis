@@ -16,7 +16,15 @@ app.conf.beat_schedule = {
     "setup_musicians": {
         "task": "setup_musicians",
         "schedule": crontab(hour=0, minute=0, day_of_week='sunday')
-    }
+    },
+    "setup_songs": {
+        "task": "setup_songs",
+        "schedule": crontab(hour=0, minute=0, day_of_week='sunday')
+    },
+    "setup_ranking": {
+        "task": "setup_ranking",
+        "schedule": crontab(hour=0, minute=0, day_of_week='sunday')
+    },
 }
 
 if __name__ == '__main__':
