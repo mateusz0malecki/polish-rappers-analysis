@@ -41,45 +41,28 @@ async def musician_info(
         return rapper_db
 
 
-@router.get('/ranking/10000', status_code=status.HTTP_200_OK, response_model=List[musician_schemas.MusicianRank10000])
-async def ranking_results_10000(
+@router.get('/ranking/', status_code=status.HTTP_200_OK)
+async def ranking_results(
+        range_of_words,
         db: Session = Depends(get_db)
 ):
     """
-    Returns list of rappers ordered ascending by those who used most different words in his first 10000 songs words.
+    Returns list of rappers ordered ascending by those who used most different words in his songs words.
     """
-    rappers = db.query(Musician).order_by(Musician.ranking_10000)
-    return rappers.all()
-
-
-@router.get('/ranking/20000', status_code=status.HTTP_200_OK, response_model=List[musician_schemas.MusicianRank20000])
-async def ranking_results_20000(
-        db: Session = Depends(get_db)
-):
-    """
-    Returns list of rappers ordered ascending by those who used most different words in his first 20000 songs words.
-    """
-    rappers = db.query(Musician).order_by(Musician.ranking_20000)
-    return rappers.all()
-
-
-@router.get('/ranking/30000', status_code=status.HTTP_200_OK, response_model=List[musician_schemas.MusicianRank30000])
-async def ranking_results_30000(
-        db: Session = Depends(get_db)
-):
-    """
-    Returns list of rappers ordered ascending by those who used most different words in his first 30000 songs words.
-    """
-    rappers = db.query(Musician).order_by(Musician.ranking_30000)
-    return rappers.all()
-
-
-@router.get('/ranking/all', status_code=status.HTTP_200_OK, response_model=List[musician_schemas.MusicianRankAll])
-async def ranking_results_all(
-        db: Session = Depends(get_db)
-):
-    """
-    Returns list of rappers ordered ascending by those who used most different words in his all songs.
-    """
-    rappers = db.query(Musician).order_by(Musician.ranking_all)
-    return rappers.all()
+    if str(range_of_words).lower() not in ['10000', '20000', '30000', 'all']:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Wrong range of words. Choose from: 10000, 20000, 30000, all."
+        )
+    elif str(range_of_words) == '10000':
+        rappers = db.query(Musician).order_by(Musician.ranking_10000).all()
+        return [musician_schemas.MusicianRank10000(**rapper.__dict__) for rapper in rappers]
+    elif str(range_of_words) == '20000':
+        rappers = db.query(Musician).order_by(Musician.ranking_20000).all()
+        return [musician_schemas.MusicianRank20000(**rapper.__dict__) for rapper in rappers]
+    elif str(range_of_words) == '30000':
+        rappers = db.query(Musician).order_by(Musician.ranking_30000).all()
+        return [musician_schemas.MusicianRank30000(**rapper.__dict__) for rapper in rappers]
+    else:
+        rappers = db.query(Musician).order_by(Musician.ranking_all).all()
+        return [musician_schemas.MusicianRankAll(**rapper.__dict__) for rapper in rappers]

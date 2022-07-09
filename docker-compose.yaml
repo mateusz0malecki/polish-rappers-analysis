@@ -47,12 +47,12 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-    command: bash -c "wait-for-it --service db:5432 && alembic upgrade head && python main.py"
+    command: bash -c "wait-for-it --service db:5432 && alembic upgrade head && python run.py"
 
   celery_worker:
     container_name: celery_worker
     build: ./app
-    command: bash -c "wait-for-it --service app:8000 && celery -A celery_worker worker --loglevel=info -B"
+    command: bash -c "wait-for-it --service app:8000 && celery -A celery_worker worker --loglevel=info -f celery.log -B"
     volumes:
       - ./app:/app
     environment:

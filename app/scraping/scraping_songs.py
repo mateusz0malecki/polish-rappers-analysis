@@ -1,17 +1,18 @@
-from bs4 import BeautifulSoup
-from requests import get
 import string
 import os
 import logging
-from utils.settings import Settings
+from bs4 import BeautifulSoup
+from requests import get
 
-settings = Settings()
+
 logger = logging.getLogger(__name__)
+
+songs_path = os.getenv("SONGS_PATH", '/app/files_songs/')
 
 
 def make_folder_for_data():
     try:
-        os.mkdir(settings.songs_path)
+        os.mkdir(songs_path)
     except FileExistsError:
         logger.info(f"[x] Folder for songs data already exists.")
 
@@ -67,12 +68,12 @@ def get_text_of_song(url):
 
 
 def save_song_text(musician, title, text):
-    with open(f'{settings.songs_path}{musician}/{title}.txt', 'w') as file:
+    with open(f'{songs_path}{musician}/{title}.txt', 'w') as file:
         file.write(text)
 
 
 def check_if_song_downloaded(musician, title):
-    directory = f'{settings.songs_path}{musician}'
+    directory = f'{songs_path}{musician}'
     file_list = os.listdir(directory)
     for file in file_list:
         if title in file:
@@ -85,7 +86,7 @@ def get_songs_for_musician(musician):
     number = 100
 
     try:
-        os.mkdir(f"{settings.songs_path}{musician}")
+        os.mkdir(f"{songs_path}{musician}")
     except FileExistsError:
         logger.info(f"[x] Folder for musician '{musician}' already exists.")
 

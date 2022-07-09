@@ -1,14 +1,14 @@
-from utils.settings import Settings
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-settings = Settings()
 
-postgres_user = settings.postgres_user
-postgres_db = settings.postgres_db
-postgres_password = settings.postgres_password
-postgres_host = settings.postgres_host
+postgres_user = os.getenv("POSTGRES_USER", 'postgres')
+postgres_db = os.getenv("POSTGRES_DB", 'rappers')
+postgres_password = os.getenv("POSTGRES_PASSWORD", 'password')
+postgres_host = os.getenv("POSTGRES_HOST", 'db')
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}/{postgres_db}"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

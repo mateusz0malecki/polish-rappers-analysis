@@ -9,12 +9,19 @@ def lower_camel(string: str) -> str:
     return low_camel
 
 
+def lower_camel_no_digits(string: str) -> str:
+    camel = ''.join(word.capitalize() for word in string.split('_'))
+    low_camel = camel[0].lower() + camel[1:]
+    low_camel_no_digits = ''.join([i for i in low_camel if not i.isdigit()])
+    return low_camel_no_digits
+
+
 class MusicianList(BaseModel):
     artist_name: str
 
     class Config:
         orm_mode = True
-        alias_generator = lower_camel
+        alias_generator = lower_camel_no_digits
         allow_population_by_field_name = True
 
 

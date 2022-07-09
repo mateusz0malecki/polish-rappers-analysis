@@ -1,14 +1,17 @@
-from .celery import app
 from celery import Task
-from db.database import db_session
-from db.db_data_update import get_musicians_data, get_musicians_songs_data
+
+from .tasks_helpers import get_musicians_data, get_musicians_songs_data
+from .celery import app
 from models.musician_model import Musician
 from scraping.scraping_songs import make_folder_for_data
+from db.database import db_session
 
 
 class SQLAlchemyTask(Task):
-    """An abstract Celery Task that ensures that the connection the the
-    database is closed on task completion"""
+    """
+    An abstract Celery Task that ensures that the connection the the
+    database is closed on task completion
+    """
     abstract = True
 
     def after_return(self, status, retval, task_id, args, kwargs, einfo):
@@ -18,7 +21,6 @@ class SQLAlchemyTask(Task):
 @app.task(name="setup_musicians", base=SQLAlchemyTask)
 def setup_musicians():
     """
-    Only for superuser.
     Updates DB with current info about rappers.
     """
     get_musicians_data(db_session)
@@ -28,12 +30,12 @@ def setup_musicians():
 @app.task(name="setup_songs", base=SQLAlchemyTask)
 def setup_songs():
     """
-    Only for superuser.
     Updates DB with current info about songs.
     """
     make_folder_for_data()
     rappers = Musician.get_all_musicians(db_session)
     rappers_list = [rapper.artist_name for rapper in rappers]
+    rappers_list = ["Mata"]
     for rapper_name in rappers_list:
         get_musicians_songs_data(rapper_name, db_session)
     return {"message": "DB - songs info updated."}
@@ -42,7 +44,6 @@ def setup_songs():
 @app.task(name="setup_ranking", base=SQLAlchemyTask)
 def setup_ranking():
     """
-    Only for superuser.
     Updates DB with current info about ranking - which rapper used most words.
     """
     rappers10000 = db_session.query(Musician).order_by(Musician.number_of_words_10000.desc())

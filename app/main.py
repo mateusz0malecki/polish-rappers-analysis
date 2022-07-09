@@ -1,34 +1,42 @@
-import uvicorn
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from settings import get_settings
 from routers.rappers import router as rappers_router
 
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename="logs.log")
-formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+def create_app() -> FastAPI:
+    # Settings
+    _settings = get_settings()
 
+    # Logger
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    handler = logging.FileHandler(filename="api.log")
+    formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
-app = FastAPI()
-app.include_router(rappers_router)
+    # FastAPI
+    app = FastAPI(
+        docs_url="/docs",
+        version="1.0.0"
+    )
 
-origins = [
-    "http://localhost:3000"
-]
+    # Routes
+    app.include_router(rappers_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    # CORS
+    origins = [
+        "http://localhost:3000"
+    ]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    return app

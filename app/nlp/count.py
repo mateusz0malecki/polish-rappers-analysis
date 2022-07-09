@@ -1,4 +1,5 @@
 from collections import Counter
+
 from nlp.lemma import get_all_texts, nlp_texts
 
 
